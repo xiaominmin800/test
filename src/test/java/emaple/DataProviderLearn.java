@@ -1,4 +1,4 @@
-package log;
+package emaple;
 
 import baseinfo.httpclient;
 import net.sf.json.JSONObject;
