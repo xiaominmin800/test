@@ -1,6 +1,7 @@
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Logger;
 
 import baseinfo.JsonUtil;
 import baseinfo.httpclient;
@@ -11,7 +12,6 @@ import org.testng.annotations.Test;
 
 
 public class getjiami {
-
     @Test
     public  void gettest() {
 
@@ -21,5 +21,7 @@ public class getjiami {
         String sta= JsonUtil.parseJsonStr(boys.toString(), "status").get(0).toString();
         System.out.println("这个status为："+sta);
         AssertJUnit.assertEquals(sta, "200");
+        Logger log = Logger.getLogger("");
+        log.info(sta);
     }
 }
