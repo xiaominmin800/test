@@ -66,7 +66,7 @@ public class DataProviderLearn {
 
         JSONObject response = new JSONObject();
         Logger log = Logger.getLogger("");
-<<<<<<< HEAD
+
         log.info(bodys.toString());
 
         try {
@@ -79,15 +79,6 @@ public class DataProviderLearn {
         catch (Exception e){
 
         }
-=======
-
-        response = httpClient3.doPost("http://api.1diary.me/update",bodys);
-
-        //response = https.httpPostRaw("http://api.1diary.me/update",bodys.toString(),null,null);
->>>>>>> 71e27336f6a66978ffa51032daf941e9885ac281
-
-
-
 
 
 
