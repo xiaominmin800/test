@@ -11,6 +11,7 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
+<<<<<<< HEAD
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -30,8 +31,30 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+=======
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
+>>>>>>> 71e27336f6a66978ffa51032daf941e9885ac281
 
 public class httpclient {
+
     /**
      * 向指定URL发送GET方法的请求
      *
@@ -139,6 +162,62 @@ public class httpclient {
         }
         return null;
     }
+
+
+
+    public baseinfo.HttpResponse httpPostRaw(String url, String stringJson, Map<String, String> headers, String encode) {
+        baseinfo.HttpResponse response = new baseinfo.HttpResponse();
+        if (encode == null) {
+            encode = "utf-8";
+        }
+        RequestConfig defaultRequestConfig = RequestConfig.custom().setSocketTimeout(2000)
+                .setConnectTimeout(2000).setConnectionRequestTimeout(2000).build();
+        // HttpClients.createDefault()等价于 HttpClientBuilder.create().build();
+        CloseableHttpClient closeableHttpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setConfig(defaultRequestConfig);
+        // 设置header
+        httpPost.setHeader("Content-type", "application/json");
+        if (headers != null && headers.size() > 0) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                httpPost.setHeader(entry.getKey(), entry.getValue());
+            }
+        }
+        // 组织请求参数
+        StringEntity stringEntity = new StringEntity(stringJson, encode);
+        httpPost.setEntity(stringEntity);
+        String content = null;
+        CloseableHttpResponse httpResponse = null;
+        try {
+            // 响应信息
+            httpResponse = closeableHttpClient.execute(httpPost);
+            HttpEntity entity = httpResponse.getEntity();
+            content = EntityUtils.toString(entity, encode);
+            response.setBody(content);
+            response.setHeaders(httpResponse.getAllHeaders());
+            response.setReasonPhrase(httpResponse.getStatusLine().getReasonPhrase());
+            response.setStatusCode(httpResponse.getStatusLine().getStatusCode());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                httpResponse.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            // 关闭连接、释放资源
+            closeableHttpClient.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+
+
+
 
 }
 

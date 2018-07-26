@@ -1,16 +1,14 @@
 package emaple;
 
+import baseinfo.httpClient3;
 import baseinfo.httpclient;
 import net.sf.json.JSONObject;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
-import java.util.Date;
 
 public class DataProviderLearn {
 
@@ -21,8 +19,10 @@ public class DataProviderLearn {
                            String monthOfYear,String dayOfMonth,String updateTime,String objectId,String updatedAt,String userId,
                            String createAt,String orderNum,String updateAt,String dataVersion,String types,String token,String xdd
                            ){
+        httpclient https= new httpclient();
         System.out.println("Username: "+ userName + ";   Password: "+ password);
-        JSONObject bodys=new JSONObject();
+        //JSONObject bodys=new JSONObject();
+        Map<String, Object> bodys = new HashMap<String, Object>();
         JSONObject contents = new JSONObject();
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 
@@ -66,6 +66,7 @@ public class DataProviderLearn {
 
         JSONObject response = new JSONObject();
         Logger log = Logger.getLogger("");
+<<<<<<< HEAD
         log.info(bodys.toString());
 
         try {
@@ -78,6 +79,12 @@ public class DataProviderLearn {
         catch (Exception e){
 
         }
+=======
+
+        response = httpClient3.doPost("http://api.1diary.me/update",bodys);
+
+        //response = https.httpPostRaw("http://api.1diary.me/update",bodys.toString(),null,null);
+>>>>>>> 71e27336f6a66978ffa51032daf941e9885ac281
 
 
 
