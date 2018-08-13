@@ -67,12 +67,22 @@ public class DataProviderLearn {
         JSONObject response = new JSONObject();
         Logger log = Logger.getLogger("");
 
+
         //response = httpClient3.doPost("http://api.1diary.me/update",bodys);
 
         //response = https.httpPostRaw("http://api.1diary.me/update",bodys.toString(),null,null);
+        log.info(bodys.toString());
 
+        try {
 
+            String responses = httpclient.sendPost("http://api.1diary.me/update", bodys.toString());
+            log.info(responses);
+            JSONObject re = JSONObject.fromObject(responses);
+            log.info(re.get("code").toString());
+        }
+        catch (Exception e){
 
+        }
 
 
 
