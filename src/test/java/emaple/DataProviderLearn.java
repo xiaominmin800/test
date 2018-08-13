@@ -67,7 +67,7 @@ public class DataProviderLearn {
         JSONObject response = new JSONObject();
         Logger log = Logger.getLogger("");
 
-        response = httpClient3.doPost("http://api.1diary.me/update",bodys);
+        //response = httpClient3.doPost("http://api.1diary.me/update",bodys);
 
         //response = https.httpPostRaw("http://api.1diary.me/update",bodys.toString(),null,null);
 
