@@ -2,56 +2,32 @@ package baseinfo;
 
 import net.sf.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
-<<<<<<< HEAD
+
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
+
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-=======
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
+
 import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 
->>>>>>> 71e27336f6a66978ffa51032daf941e9885ac281
 
 public class httpclient {
 
@@ -215,7 +191,54 @@ public class httpclient {
         return response;
     }
 
+    public static String sendPostfile(String url, String params)  throws Exception {
 
+        PrintWriter out = null;
+        BufferedReader in = null;
+        String result = "";
+        HttpPost httpPost = new HttpPost(url);
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        httpPost.setHeader("Accept", "application/json");
+        httpPost.setHeader("Content-Type", "application/json");
+        String charSet = "UTF-8";
+        StringEntity entity = new StringEntity(params, charSet);
+        FileEntity entitys = new FileEntity(new File("Test.txt"), ContentType.APPLICATION_FORM_URLENCODED);
+        httpPost.setEntity(entity);
+        CloseableHttpResponse response = null;
+        try {
+
+            response = httpclient.execute(httpPost);
+            StatusLine status = response.getStatusLine();
+            int state = status.getStatusCode();
+            if (state == HttpStatus.SC_OK) {
+                HttpEntity responseEntity = response.getEntity();
+                String jsonString = EntityUtils.toString(responseEntity);
+                //JSONObject responses=JSONObject.fromObject(jsonString);
+                return jsonString;
+            }
+            else{
+                logger.error("请求返回:"+state+"("+url+")");
+            }
+        }
+        catch (Exception e){
+
+        }
+        finally {
+            if (response != null) {
+                try {
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            try {
+                httpclient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
 
 

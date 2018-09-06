@@ -4,7 +4,7 @@ import java.sql.*;
 import java.sql.DriverManager;
 
 public class DBtest {
-    public static void main(String args[]) {
+    public static void DBcone(String sql) {
         try {
             Class.forName("com.mysql.jdbc.Driver");     //加载MYSQL JDBC驱动程序
             System.out.println("Success loading Mysql Driver!");

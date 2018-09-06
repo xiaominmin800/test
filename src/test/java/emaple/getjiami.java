@@ -17,7 +17,7 @@ public class getjiami {
     public  void gettest() {
 
         JSONObject boys = new JSONObject();
-        boys = httpclient.sendGet("http://47.97.171.60:30026/eaglehorn-risk-data/api/v1/engine/derivative-factors/1143","");
+        boys = httpclient.sendGet("http://47.97.171.60:30026/eaglehorn-risk-data/api/v1/engine/derivative-factors/900","");
         System.out.println(boys.get("status"));
         String sta= JsonUtil.parseJsonStr(boys.toString(), "status").get(0).toString();
         System.out.println("这个status为："+sta);
